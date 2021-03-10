@@ -106,6 +106,13 @@
             ]
         }
     ],
+    "musicBanks": [
+        {
+            "tracks": [
+                "music_tracks/GetToTheTele.mid"
+            ]
+        }
+    ],
     "raw": [
         "sample.txt"
     ]

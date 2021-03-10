@@ -84,6 +84,12 @@ async function main() {
         }
     }
 
+    if (manifest.musicBanks) {
+        for (const musicBank of manifest.musicBanks) {
+
+        }
+    }
+
     if (manifest.raw) {
         for (const item of manifest.raw) {
             const sourceFile = path.join(manifestDirectory, item);

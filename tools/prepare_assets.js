@@ -86,7 +86,7 @@ async function main() {
 
     if (manifest.musicBanks) {
         for (const musicBank of manifest.musicBanks) {
-
+            await AudioConvert.convertMusicBank(musicBank.files, "TEST", outputDirectory, archive);
         }
     }
 

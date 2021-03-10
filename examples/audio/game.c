@@ -17,6 +17,9 @@ void game_init(Game* game, System* system) {
     game->buttons = assets_get_image(system->assets, ASSET_sprite_buttons);
 
     game->sound_id = 0;
+
+    audio_load_music(system->audio, ASSET_musicbank_TEST);
+    audio_play_music(system->audio);
 }
 
 void game_update(Game* game, float time_delta){

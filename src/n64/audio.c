@@ -110,9 +110,10 @@ int audio_load_music(Audio* audio, int asset_id) {
     return 1;
 }
 
-int audio_play_music(Audio* audio) {
+int audio_play_music(Audio* audio, uint32_t track_num) {
+    nuAuSeqPlayerSetNo(0, track_num);
     nuAuSeqPlayerPlay(0);
-    return 0;
+    return 1;
 }
 
 int audio_stop_music(Audio* audio){

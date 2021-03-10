@@ -24,23 +24,6 @@ async function convertSoundBank(files, name, outputDir, archive) {
     await N64AudioWriter.writeSoundBank(soundBank);
 
     const soundBankPath = path.join(outputDir, `${soundBank.name}.soundbank`);
-    /*
-
-    const ctrlFileStats = fs.statSync(soundBank.ctlFilePath);
-
-    const soundBankBuffer = Buffer.alloc(8);
-    soundBankBuffer.writeUInt32BE(soundBank.fileCount, 0);
-    soundBankBuffer.writeUInt32BE(ctrlFileStats.size, 4);
-
-
-
-    const soundBankFile = fs.openSync(soundBankPath, "w");
-    fs.writeSync(soundBankFile, soundBankBuffer);
-    fs.writeSync(soundBankFile, fs.readFileSync(soundBank.ctlFilePath));
-    fs.writeSync(soundBankFile, fs.readFileSync(soundBank.tblFilePath));
-    fs.closeSync(soundBankFile);
-     */
-
     writeSoundBankFile(soundBankPath, soundBank.ctlFilePath, soundBank.tblFilePath, soundBank.fileCount);
     archive.add(soundBankPath, "soundbank");
 
@@ -48,7 +31,28 @@ async function convertSoundBank(files, name, outputDir, archive) {
 }
 
 async function convertMusicBank(files, name, outputDir, archive) {
+    const tempCtlFilePath = "/home/matthew/development/scratch/nusys/midi.ctl";
+    const tempTblFilePath = "/home/matthew/development/scratch/nusys/midi.tbl";
+    const tempSeqBankPath = "/home/matthew/development/scratch/nusys/midi.sbk";
 
+    const instrumentBankPath = path.join(outputDir, `${name}.instrumentbank`);
+    writeSoundBankFile(instrumentBankPath, tempCtlFilePath, tempTblFilePath, 0);
+    const entry = archive.add(instrumentBankPath, "instrumentbank");
+
+    const sbkFileStats = fs.statSync(tempSeqBankPath);
+
+    const musicBankHeader = Buffer.alloc(12);
+    musicBankHeader.writeUInt32BE(3, 0);
+    musicBankHeader.writeUInt32BE(entry.index, 4);
+    musicBankHeader.writeUInt32BE(sbkFileStats.size, 8);
+
+    const musicBankPath = path.join(outputDir, `${name}.musicbank`);
+    const musicBankFile = fs.openSync(musicBankPath, "w");
+    fs.writeSync(musicBankFile, musicBankHeader);
+    fs.writeSync(musicBankFile, fs.readFileSync(tempSeqBankPath));
+    fs.closeSync(musicBankFile);
+
+    archive.add(musicBankPath, "musicbank");
 }
 
 module.exports = {

@@ -30,7 +30,7 @@ SoundStatus audio_get_sound_status(Audio* audio, int handle);
  * \returns nonzero value if the bank was successfully loaded, otherwise zero if an error occurred.
  */
 int audio_load_music(Audio* audio, int asset_id);
-int audio_play_music(Audio* audio);
+int audio_play_music(Audio* audio, uint32_t track_num);
 int audio_stop_music(Audio* audio);
 
 #endif

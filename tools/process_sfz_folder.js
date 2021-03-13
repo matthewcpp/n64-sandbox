@@ -35,11 +35,11 @@ const files = fs.readdirSync(sfzExportFolder, {withFileTypes: true});
 
 const multiSfzFile = fs.openSync(multiSfzFilePath, "w");
 
-fs.writeSync(multiSfzFile, "<bank>");
+fs.writeSync(multiSfzFile, "<bank>\n\n");
 
 if (percussionFile !== null) {
-    fs.writeSync(multiSfzFile, "<percussion>");
-    fs.writeSync(multiSfzFile, `instrument=${percussionFile}`);
+    fs.writeSync(multiSfzFile, "<percussion>\n");
+    fs.writeSync(multiSfzFile, `instrument=${percussionFile}\n\n`);
 }
 
 
@@ -48,6 +48,9 @@ for (const file of files) {
         continue;
 
     if (path.extname(file.name) !== ".sfz")
+        continue;
+
+    if (file.name === percussionFile)
         continue;
 
     const programNumber = parseInt(file.name.substr(0, file.name.indexOf('_'))) + 1;
